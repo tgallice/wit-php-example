@@ -1,7 +1,7 @@
 {
   "name": "tgallice/wit-php-exemple",
   "description": "Some examples of the wit-php sdk",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
@@ -16,6 +16,6 @@
   },
   "require": {
     "symfony/console": "^3.0",
-    "tgallice/wit-php": "dev-master"
+    "tgallice/wit-php": "^1.0@dev"
   }
 }

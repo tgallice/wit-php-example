@@ -15,7 +15,25 @@ Quickstart demo
 It's based on the quickstart tutorial of wit.ai which can be found [here][4]
 
 ```bash
-php demo.php wit:quickstart <app_token>
+$ php demo.php wit:quickstart <app_token>
+>>> What is the weather ?           
++ Merge context with :
+[]
++++ Where exactly?
+>>> In London
++ Merge context with :
+{
+    "location": [
+        {
+            "type": "value",
+            "value": "London",
+            "suggested": true
+        }
+    ]
+}
++ Action : fetch-weather
++++ I see it’s sunny today!
+>>>
 ```
 
 Intent by text
@@ -24,7 +42,31 @@ Intent by text
 This command provides an easy way to get Intent based on text input.
 
 ```bash
-php demo.php wit:intent:text <app_token>
+$ php demo.php wit:intent:text <app_token>
+>>> I live in London
++ Response body :
+{
+    "msg_id": "e8cca629-cf2a-445a-b1c8-7bd1d569330e",
+    "_text": "I live in London",
+    "outcomes": [
+        {
+            "_text": "I live in London",
+            "confidence": null,
+            "intent": "default_intent",
+            "entities": {
+                "location": [
+                    {
+                        "type": "value",
+                        "value": "London",
+                        "suggested": true
+                    }
+                ]
+            }
+        }
+    ]
+}
+>>> 
+
 ```
 
 Intent by speech
@@ -33,7 +75,32 @@ Intent by speech
 You can test to get Intent by speech. A sample is provided, but you can use your own.
 
 ```bash
-php demo.php wit:intent:speech <app_token>
+$ php demo.php wit:intent:speech <app_token>
+File path >>> sample/sample.mp3   
++ Please wait...
++ Response body :
+{
+    "msg_id": "702657bc-5672-444e-a0cc-5a673306aa8b",
+    "_text": "hello i live in london",
+    "outcomes": [
+        {
+            "_text": "hello i live in london",
+            "confidence": null,
+            "intent": "default_intent",
+            "entities": {
+                "location": [
+                    {
+                        "type": "value",
+                        "value": "london",
+                        "suggested": true
+                    }
+                ]
+            }
+        }
+    ]
+}
+File path >>> 
+
 ```
 
 [1]: https://github.com/tgallice/wit-php
