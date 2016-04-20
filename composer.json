@@ -1,0 +1,27 @@
+{
+  "name": "tgallice/wit-php-exemple",
+  "description": "Some examples of the wit-php sdk",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Thomas Gallice",
+      "email": "tm.gallice@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Tgallice\\WitDemo\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:tgallice/wit-php.git"
+    }
+  ],
+  "require": {
+    "tgallice/wit-php": "^1.0@dev",
+    "symfony/console": "^3.0"
+  }
+}
