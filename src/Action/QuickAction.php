@@ -30,6 +30,7 @@ class QuickAction extends ActionMapping
 
     public function say($sessionId, $message, Context $context)
     {
+        $this->output->writeln('<info>+ Say : '.$message.'</info>');
         $this->output->writeln('+++ '.$message);
     }
 

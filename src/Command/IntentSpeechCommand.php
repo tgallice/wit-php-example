@@ -10,7 +10,6 @@ use Symfony\Component\Console\Question\Question;
 use Tgallice\Wit\Api;
 use Tgallice\Wit\Client;
 
-
 class IntentSpeechCommand extends Command
 {
     protected function configure()

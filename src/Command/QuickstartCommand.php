@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Tgallice\Wit\Api;
 use Tgallice\Wit\Client;
-use Tgallice\Wit\Conversation;
 use Tgallice\Wit\Model\Context;
 use Tgallice\WitDemo\Action\QuickAction;
 
@@ -34,7 +33,7 @@ class QuickstartCommand extends Command
         $client = new Client($token);
         $api =  new Api($client);
         $actionMapping = new QuickAction($output);
-        $conversation = new Conversation($api, $actionMapping);
+        $conversation = new Api\Conversation($api, $actionMapping);
 
         $sessionId = 'user-'.time();
         $context = new Context();
