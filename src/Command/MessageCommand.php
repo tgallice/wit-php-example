@@ -7,20 +7,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Tgallice\Wit\Api;
 use Tgallice\Wit\Client;
+use Tgallice\Wit\MessageApi;
 
-class IntentSpeechCommand extends Command
+class MessageCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('wit:intent:speech')
-            ->setDescription('Interactive converse with the Wit.ai api')
+            ->setName('wit:message')
+            ->setDescription('Extract meaning of a text message')
             ->addArgument(
                 'token',
                 InputArgument::REQUIRED,
-                'App token ID'
+                'Access token ID'
             )
         ;
     }
@@ -29,26 +29,14 @@ class IntentSpeechCommand extends Command
     {
         $token = $input->getArgument('token');
         $client = new Client($token);
-        $api =  new Api($client);
+        $api =  new MessageApi($client);
 
         ask:
 
         $helper = $this->getHelper('question');
-        $messagePrompt = new Question('File path >>> ');
-        $file = $helper->ask($input, $output, $messagePrompt);
-
-        if (!file_exists($file)) {
-            $output->writeln('<error>Invalid File</error>');
-            goto ask;
-        }
-
-        if (0 !== strpos($file, '/')) {
-            $file = realpath(__DIR__).'/../'.$file;
-        }
-
-        $output->writeln('<info>+ Please wait...</info>');
-
-        $intent = $api->getIntentBySpeech($file);
+        $messagePrompt = new Question('>>> ');
+        $message = $helper->ask($input, $output, $messagePrompt);
+        $intent = $api->extractMeaning($message);
 
         $output->writeln('<info>+ Response body :</info>');
         $output->writeln('<comment>'.json_encode($intent, JSON_PRETTY_PRINT).'</comment>');

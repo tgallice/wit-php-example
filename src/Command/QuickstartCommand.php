@@ -7,8 +7,9 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tgallice\Wit\Api;
 use Tgallice\Wit\Client;
+use Tgallice\Wit\Conversation;
+use Tgallice\Wit\ConverseApi;
 use Tgallice\Wit\Model\Context;
 use Tgallice\WitDemo\Action\QuickAction;
 
@@ -22,7 +23,7 @@ class QuickstartCommand extends Command
             ->addArgument(
                 'token',
                 InputArgument::REQUIRED,
-                'App token ID'
+                'Access token ID'
             )
         ;
     }
@@ -31,9 +32,9 @@ class QuickstartCommand extends Command
     {
         $token = $input->getArgument('token');
         $client = new Client($token);
-        $api =  new Api($client);
+        $api =  new ConverseApi($client);
         $actionMapping = new QuickAction($output);
-        $conversation = new Api\Conversation($api, $actionMapping);
+        $conversation = new Conversation($api, $actionMapping);
 
         $sessionId = 'user-'.time();
         $context = new Context();
