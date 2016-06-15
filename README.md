@@ -40,10 +40,10 @@ $ php demo.php wit:quickstart <access_token>
 Intent by text
 --------------
 
-This command provides an easy way to get Intent based on text input.
+This command provides an easy way to extract meaning based on message input.
 
 ```bash
-$ php demo.php wit:intent:text <access_token>
+$ php demo.php wit:message <access_token>
 >>> I live in London
 + Response body :
 {
@@ -67,10 +67,10 @@ $ php demo.php wit:intent:text <access_token>
 Intent by speech
 ----------------
 
-You can test to get Intent by speech. A sample is provided, but you can use your own.
+You can test to extract meaning by speech. A sample is provided, but you can use your own.
 
 ```bash
-$ php demo.php wit:intent:speech <access_token>
+$ php demo.php wit:speech <access_token>
 File path >>> sample/sample.mp3   
 + Please wait...
 + Response body :
