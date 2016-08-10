@@ -16,6 +16,6 @@
   },
   "require": {
     "symfony/console": "^3.0",
-    "tgallice/wit-php": "^3.0"
+    "tgallice/wit-php": "^0.3"
   }
 }
