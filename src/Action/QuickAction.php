@@ -17,18 +17,29 @@ class QuickAction extends ActionMapping
         $this->output = $output;
     }
 
-    public function action($sessionId, $actionName, Context $context)
+    /**
+     * @inheritdoc
+     */
+    public function action($sessionId, $actionName, Context $context, array $entities = [])
     {
         $this->output->writeln(sprintf('<info>+ Action : %s</info>', $actionName));
 
-        if ($actionName === 'fetch-weather') {
-            $context = $this->fetchWeather($sessionId, $context);
+        if (!empty($entities)) {
+            $this->output->writeln('<info>+ Entities provided:</info>');
+            $this->output->writeln('<comment>'.json_encode($entities, JSON_PRETTY_PRINT).'</comment>');
+        }
+
+        if ($actionName === 'getForecast') {
+            $context = $this->getForecast($context, $entities);
         }
 
         return $context;
     }
 
-    public function say($sessionId, $message, Context $context)
+    /**
+     * @inheritdoc
+     */
+    public function say($sessionId, $message, Context $context, array $entities = [])
     {
         $this->output->writeln('<info>+ Say : '.$message.'</info>');
         $this->output->writeln('+++ '.$message);
@@ -42,25 +53,33 @@ class QuickAction extends ActionMapping
         $this->output->writeln('<error>'.$error.'</error>');
     }
 
-    public function merge($sessionId, Context $context, array $entities)
+    /**
+     * @inheritdoc
+     */
+    public function merge($sessionId, Context $context, array $entities = [])
     {
         $this->output->writeln('<info>+ Merge context with :</info>');
         $this->output->writeln('<comment>'.json_encode($entities, JSON_PRETTY_PRINT).'</comment>');
-        $loc = Helper::getFirstEntityValue('location', $entities);
-        $context->add('loc', $loc);
 
         return $context;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function stop($sessionId, Context $context)
     {
         $this->output->writeln('<info>+ Stop</info>');
     }
 
-    private function fetchWeather($sessionId, Context $context)
+    private function getForecast(Context $context, array $entities = [])
     {
-        $context->add('forecast', 'sunny');
+        $loc = Helper::getFirstEntityValue('location', $entities);
 
-        return $context;
+        if (!$loc) {
+            return new Context(['missingLocation' => true]);
+        }
+
+        return new Context(['forecast' => 'sunny in '.$loc]);
     }
 }

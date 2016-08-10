@@ -17,24 +17,26 @@ It's based on the quickstart tutorial of wit.ai which can be found [here][4]
 ```bash
 $ php demo.php wit:quickstart <access_token>
 >>> What is the weather ?           
-+ Merge context with :
-[]
++ Action : getForecast
 +++ Where exactly?
 >>> In London
-+ Merge context with :
++ Action : getForecast
++ Entities provided:
 {
     "location": [
         {
-            "confidence": 0.9979288322796,
+            "confidence": 0.99930685842002,
             "type": "value",
             "value": "London",
             "suggested": true
         }
     ]
 }
-+ Action : fetch-weather
-+++ I see it’s sunny today!
->>>
+
++ Say : The weather will be sunny in London
++++ The weather will be sunny in London
++ Stop
+
 ```
 
 Intent by text
