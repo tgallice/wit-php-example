@@ -9,6 +9,16 @@ running the demo.
 
 All these demos are built with the [symfony/console][3] component and should be used with a CLI.
 
+Install
+-------
+```bash
+
+$ git clone git@github.com:tgallice/wit-php-example.git
+$ cd wit-php-example
+$ composer install
+
+```
+
 Quickstart demo
 ---------------
 
