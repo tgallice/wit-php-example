@@ -6,7 +6,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Tgallice\Wit\ActionMapping;
 use Tgallice\Wit\Helper;
 use Tgallice\Wit\Model\Context;
-use Tgallice\Wit\Model\Step;
+use Tgallice\Wit\Model\Step\Action;
+use Tgallice\Wit\Model\Step\Message;
+use Tgallice\Wit\Model\Step\Merge;
+use Tgallice\Wit\Model\Step\Stop;
 
 class QuickAction extends ActionMapping
 {
@@ -20,17 +23,17 @@ class QuickAction extends ActionMapping
     /**
      * @inheritdoc
      */
-    public function action($sessionId, $actionName, Context $context, array $entities = [])
+    public function action($sessionId, Context $context, Action $step)
     {
-        $this->output->writeln(sprintf('<info>+ Action : %s</info>', $actionName));
+        $this->output->writeln(sprintf('<info>+ (%f) Action : %s</info>', $step->getConfidence(), $step->getAction()));
 
-        if (!empty($entities)) {
+        if (!empty($step->getEntities())) {
             $this->output->writeln('<info>+ Entities provided:</info>');
-            $this->output->writeln('<comment>'.json_encode($entities, JSON_PRETTY_PRINT).'</comment>');
+            $this->output->writeln('<comment>'.json_encode($step->getEntities(), JSON_PRETTY_PRINT).'</comment>');
         }
 
-        if ($actionName === 'getForecast') {
-            $context = $this->getForecast($context, $entities);
+        if ($step->getAction() === 'getForecast') {
+            $context = $this->getForecast($context, $step->getEntities());
         }
 
         return $context;
@@ -39,10 +42,10 @@ class QuickAction extends ActionMapping
     /**
      * @inheritdoc
      */
-    public function say($sessionId, $message, Context $context, array $entities = [])
+    public function say($sessionId, Context $context, Message $step)
     {
-        $this->output->writeln('<info>+ Say : '.$message.'</info>');
-        $this->output->writeln('+++ '.$message);
+        $this->output->writeln(sprintf('<info>+ (%f) Say : %s</info>', $step->getConfidence(), $step->getMessage()));
+        $this->output->writeln('+++ '.$step->getMessage());
     }
 
     /**
@@ -56,10 +59,10 @@ class QuickAction extends ActionMapping
     /**
      * @inheritdoc
      */
-    public function merge($sessionId, Context $context, array $entities = [])
+    public function merge($sessionId, Context $context, Merge $step)
     {
-        $this->output->writeln('<info>+ Merge context with :</info>');
-        $this->output->writeln('<comment>'.json_encode($entities, JSON_PRETTY_PRINT).'</comment>');
+        $this->output->writeln(sprintf('<info>+ (%f) Merge context with :</info>', $step->getConfidence()));
+        $this->output->writeln('<comment>'.json_encode($step->getEntities(), JSON_PRETTY_PRINT).'</comment>');
 
         return $context;
     }
@@ -67,9 +70,9 @@ class QuickAction extends ActionMapping
     /**
      * @inheritdoc
      */
-    public function stop($sessionId, Context $context)
+    public function stop($sessionId, Context $context, Stop $step)
     {
-        $this->output->writeln('<info>+ Stop</info>');
+        $this->output->writeln(sprintf('<info>+ (%f) Stop</info>', $step->getConfidence()));
     }
 
     private function getForecast(Context $context, array $entities = [])
