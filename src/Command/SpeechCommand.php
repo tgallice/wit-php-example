@@ -43,7 +43,7 @@ class SpeechCommand extends Command
         }
 
         if (0 !== strpos($file, '/')) {
-            $file = realpath(__DIR__).'/../'.$file;
+            $file = __DIR__.'/../../'.$file;
         }
 
         $output->writeln('<info>+ Please wait...</info>');
